@@ -1,0 +1,5 @@
+# Include only the application files needed by this image.
+**
+!Dockerfile
+!requirements.docker.txt
+!main.py
