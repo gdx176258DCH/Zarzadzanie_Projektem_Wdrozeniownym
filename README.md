@@ -8,7 +8,7 @@ Klient chce znać bieżącą liczbę osób w jednej strefie. Kamera i mały komp
 
 | W zakresie | Poza zakresem |
 |---|---|
-| Jedna kamera, jedna strefa, Jetson Nano | Tożsamość, baza twarzy, emocje |
+| Jedna kamera, jedna strefa; Jetson Nano do odbioru; telefon do testów | Tożsamość, baza twarzy, emocje |
 | Dwa rozwiązania porównane na tych samych klatkach | Obraz w chmurze, wiele kamer |
 | Protokół pomiarów, co najmniej 50 oznaczonych klatek | Trenowanie modelu od zera |
 
@@ -26,6 +26,10 @@ Proponowany próg odbioru: co najmniej 90% wykrytych osób i co najmniej 10 klat
 | Katalog | Zawartość |
 |---|---|
 | [`LicznikPrzechodniow/`](LicznikPrzechodniow/) | Program licznika, testy, Dockerfile. Instrukcja instalacji i uruchomienia jest w [README aplikacji](LicznikPrzechodniow/README.md). |
+| [`architektura-licznik/`](architektura-licznik/) | Model Structurizr: widoki, dokumentacja, decyzje ADR. |
+| [`materialy-dla-klienta/`](materialy-dla-klienta/) | Brief, oferta i karta projektu. |
+| [`materialy-do-oddania/`](materialy-do-oddania/) | Karta z zespołem, protokół pomiarów, plan etapu 3. |
+| [`przeglad-klienta-2026-11-28/`](przeglad-klienta-2026-11-28/) | Paczka na przegląd z klientem 28 listopada 2026. |
 
 Filmy (`dane/`), wyniki pomiarów (`wyniki/`) i model (`models/`) nie trafiają do Gita.
 

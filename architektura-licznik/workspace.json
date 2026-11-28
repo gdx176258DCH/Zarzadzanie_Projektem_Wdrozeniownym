@@ -1,0 +1,1095 @@
+{
+  "configuration" : {
+    "scope" : "SoftwareSystem"
+  },
+  "description" : "Liczenie osób w jednej strefie na urządzeniu przy kamerze. Dwa rozwiązania porównane jednym protokołem.",
+  "documentation" : { },
+  "id" : 1,
+  "lastModifiedDate" : "2026-11-28T09:46:22Z",
+  "model" : {
+    "deploymentNodes" : [ {
+      "containerInstances" : [ {
+        "containerId" : "5",
+        "environment" : "Strefa klienta",
+        "id" : "38",
+        "instanceId" : 1,
+        "properties" : {
+          "structurizr.dsl.identifier" : "kameraInst"
+        },
+        "tags" : "Container Instance"
+      } ],
+      "description" : "Kamera podłączona bezpośrednio do Jetson Nano.",
+      "environment" : "Strefa klienta",
+      "id" : "37",
+      "instances" : "1",
+      "name" : "Kamera w strefie",
+      "properties" : {
+        "structurizr.dsl.identifier" : "d73a78b4-7c19-4632-a917-354b9d7271fc"
+      },
+      "tags" : "Element,Deployment Node",
+      "technology" : "USB lub CSI"
+    }, {
+      "children" : [ {
+        "containerInstances" : [ {
+          "containerId" : "6",
+          "environment" : "Strefa klienta",
+          "id" : "41",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "aplikacjaInst"
+          },
+          "relationships" : [ {
+            "description" : "Odczytuje klatki.",
+            "destinationId" : "38",
+            "id" : "42",
+            "linkedRelationshipId" : "20",
+            "sourceId" : "41",
+            "technology" : "USB lub CSI"
+          }, {
+            "description" : "Wczytuje wagi sieci.",
+            "destinationId" : "43",
+            "id" : "44",
+            "linkedRelationshipId" : "21",
+            "sourceId" : "41",
+            "technology" : "Plik"
+          }, {
+            "description" : "Zapisuje wyniki pomiaru.",
+            "destinationId" : "45",
+            "id" : "46",
+            "linkedRelationshipId" : "22",
+            "sourceId" : "41",
+            "technology" : "Plik CSV"
+          }, {
+            "description" : "Docelowo uruchamia sieć na procesorze graficznym.",
+            "destinationId" : "47",
+            "id" : "48",
+            "sourceId" : "41",
+            "tags" : "Relationship,Planned",
+            "technology" : "TensorRT"
+          }, {
+            "description" : "Przekazuje liczbę osób, czas i nazwę rozwiązania.",
+            "destinationId" : "50",
+            "id" : "51",
+            "linkedRelationshipId" : "24",
+            "sourceId" : "41",
+            "technology" : "HTTP"
+          } ],
+          "tags" : "Container Instance"
+        }, {
+          "containerId" : "14",
+          "environment" : "Strefa klienta",
+          "id" : "43",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "modelInst"
+          },
+          "tags" : "Container Instance"
+        }, {
+          "containerId" : "15",
+          "environment" : "Strefa klienta",
+          "id" : "45",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "pomiaryInst"
+          },
+          "tags" : "Container Instance"
+        } ],
+        "description" : "Wirtualne środowisko z OpenCV.",
+        "environment" : "Strefa klienta",
+        "id" : "40",
+        "instances" : "1",
+        "name" : "Środowisko Python",
+        "properties" : {
+          "structurizr.dsl.identifier" : "2af8bb1d-1cbd-4ba7-8bbc-5ff156ea10db"
+        },
+        "tags" : "Element,Deployment Node",
+        "technology" : "Python 3"
+      } ],
+      "description" : "Urządzenie przy kamerze. Na nim odbywa się odbiór wydajności.",
+      "environment" : "Strefa klienta",
+      "id" : "39",
+      "infrastructureNodes" : [ {
+        "description" : "Przyspiesza sieć po dopasowaniu przez TensorRT.",
+        "environment" : "Strefa klienta",
+        "id" : "47",
+        "name" : "Procesor graficzny",
+        "properties" : {
+          "structurizr.dsl.identifier" : "gpu"
+        },
+        "tags" : "Element,Infrastructure Node",
+        "technology" : "NVIDIA Maxwell, TensorRT"
+      } ],
+      "instances" : "1",
+      "name" : "Jetson Nano",
+      "properties" : {
+        "structurizr.dsl.identifier" : "7e1f2bb5-7fb0-4448-b75e-2c6bb99e5db7"
+      },
+      "tags" : "Element,Deployment Node",
+      "technology" : "NVIDIA Jetson Nano, JetPack"
+    }, {
+      "description" : "Serwer lub panel wskazany przez klienta.",
+      "environment" : "Strefa klienta",
+      "id" : "49",
+      "instances" : "1",
+      "name" : "Infrastruktura klienta",
+      "properties" : {
+        "structurizr.dsl.identifier" : "99eca144-5674-4fe3-8c28-a17677f0949d"
+      },
+      "softwareSystemInstances" : [ {
+        "environment" : "Strefa klienta",
+        "id" : "50",
+        "instanceId" : 1,
+        "properties" : {
+          "structurizr.dsl.identifier" : "odbiorcaInst"
+        },
+        "softwareSystemId" : "3",
+        "tags" : "Software System Instance"
+      } ],
+      "tags" : "Element,Deployment Node",
+      "technology" : "Do ustalenia z klientem"
+    }, {
+      "children" : [ {
+        "containerInstances" : [ {
+          "containerId" : "6",
+          "deploymentGroups" : [ "Telefon" ],
+          "environment" : "Testy na telefonie",
+          "id" : "55",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "aplikacjaTel"
+          },
+          "relationships" : [ {
+            "description" : "Wczytuje wagi sieci.",
+            "destinationId" : "56",
+            "id" : "57",
+            "linkedRelationshipId" : "21",
+            "sourceId" : "55",
+            "technology" : "Plik"
+          }, {
+            "description" : "Zapisuje wyniki pomiaru.",
+            "destinationId" : "58",
+            "id" : "59",
+            "linkedRelationshipId" : "22",
+            "sourceId" : "55",
+            "technology" : "Plik CSV"
+          }, {
+            "description" : "Odczytuje klatki.",
+            "destinationId" : "53",
+            "id" : "60",
+            "sourceId" : "55",
+            "tags" : "Relationship",
+            "technology" : "API kamery"
+          }, {
+            "description" : "Przekazuje liczbę osób, czas i nazwę rozwiązania.",
+            "destinationId" : "62",
+            "id" : "63",
+            "linkedRelationshipId" : "24",
+            "sourceId" : "55",
+            "technology" : "HTTP"
+          } ],
+          "tags" : "Container Instance"
+        }, {
+          "containerId" : "14",
+          "deploymentGroups" : [ "Telefon" ],
+          "environment" : "Testy na telefonie",
+          "id" : "56",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "modelTel"
+          },
+          "tags" : "Container Instance"
+        }, {
+          "containerId" : "15",
+          "deploymentGroups" : [ "Telefon" ],
+          "environment" : "Testy na telefonie",
+          "id" : "58",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "pomiaryTel"
+          },
+          "tags" : "Container Instance"
+        } ],
+        "description" : "Uruchomienie licznika albo klienta API na telefonie.",
+        "environment" : "Testy na telefonie",
+        "id" : "54",
+        "instances" : "1",
+        "name" : "Aplikacja na telefonie",
+        "properties" : {
+          "structurizr.dsl.identifier" : "7f52d89a-a8da-405b-a30d-e115f35246de"
+        },
+        "tags" : "Element,Deployment Node",
+        "technology" : "Do wyboru z zespołem"
+      } ],
+      "description" : "Drugie urządzenie testowe. Kamera wbudowana. Wynik wydajności z telefonu nie zastępuje odbioru na Jetson Nano.",
+      "environment" : "Testy na telefonie",
+      "id" : "52",
+      "infrastructureNodes" : [ {
+        "description" : "Wbudowana kamera telefonu. Obraz nie opuszcza urządzenia.",
+        "environment" : "Testy na telefonie",
+        "id" : "53",
+        "name" : "Kamera telefonu",
+        "properties" : {
+          "structurizr.dsl.identifier" : "kameraTelefon"
+        },
+        "tags" : "Element,Infrastructure Node",
+        "technology" : "Kamera"
+      } ],
+      "instances" : "1",
+      "name" : "Telefon komórkowy",
+      "properties" : {
+        "structurizr.dsl.identifier" : "3c708daa-0865-40bd-8219-4c3f21d58972"
+      },
+      "tags" : "Element,Deployment Node",
+      "technology" : "Android lub iOS"
+    }, {
+      "description" : "Serwer lub panel wskazany przez klienta.",
+      "environment" : "Testy na telefonie",
+      "id" : "61",
+      "instances" : "1",
+      "name" : "Infrastruktura klienta",
+      "properties" : {
+        "structurizr.dsl.identifier" : "fa434704-94a1-42b2-ac2c-9193f6f8e55b"
+      },
+      "softwareSystemInstances" : [ {
+        "deploymentGroups" : [ "Telefon" ],
+        "environment" : "Testy na telefonie",
+        "id" : "62",
+        "instanceId" : 1,
+        "properties" : {
+          "structurizr.dsl.identifier" : "odbiorcaTel"
+        },
+        "softwareSystemId" : "3",
+        "tags" : "Software System Instance"
+      } ],
+      "tags" : "Element,Deployment Node",
+      "technology" : "Do ustalenia z klientem"
+    } ],
+    "people" : [ {
+      "description" : "Potrzebuje bieżącej liczby osób w strefie. Nie ogląda nagrania.",
+      "id" : "1",
+      "name" : "Operator strefy",
+      "properties" : {
+        "structurizr.dsl.identifier" : "operator"
+      },
+      "relationships" : [ {
+        "description" : "Odczytuje liczbę osób w strefie.",
+        "destinationId" : "3",
+        "id" : "18",
+        "sourceId" : "1",
+        "tags" : "Relationship,Planned",
+        "technology" : "Panel"
+      } ],
+      "tags" : "Element,Person"
+    }, {
+      "description" : "Uruchamia pomiary, oznacza klatki i porównuje oba rozwiązania.",
+      "id" : "2",
+      "name" : "Zespół projektowy",
+      "properties" : {
+        "structurizr.dsl.identifier" : "zespol"
+      },
+      "relationships" : [ {
+        "description" : "Uruchamia pomiary i odczytuje wyniki.",
+        "destinationId" : "4",
+        "id" : "16",
+        "sourceId" : "2",
+        "tags" : "Relationship",
+        "technology" : "Wiersz poleceń"
+      }, {
+        "description" : "Uruchamia pomiar z wybranym rozwiązaniem i rozdzielczością.",
+        "destinationId" : "6",
+        "id" : "19",
+        "sourceId" : "2",
+        "tags" : "Relationship",
+        "technology" : "Wiersz poleceń"
+      }, {
+        "description" : "Odczytuje wyniki i porównuje rozwiązania.",
+        "destinationId" : "15",
+        "id" : "23",
+        "sourceId" : "2",
+        "tags" : "Relationship",
+        "technology" : "Arkusz"
+      }, {
+        "description" : "Wskazuje źródło obrazu.",
+        "destinationId" : "7",
+        "id" : "25",
+        "sourceId" : "2",
+        "tags" : "Relationship",
+        "technology" : "Wiersz poleceń"
+      } ],
+      "tags" : "Element,Person"
+    } ],
+    "softwareSystems" : [ {
+      "description" : "Serwer lub panel klienta, który przyjmuje liczbę osób. Adres i format wskazuje klient.",
+      "documentation" : { },
+      "id" : "3",
+      "name" : "System odbiorcy wyniku",
+      "properties" : {
+        "structurizr.dsl.identifier" : "odbiorca"
+      },
+      "tags" : "Element,Software System,External,Planned"
+    }, {
+      "containers" : [ {
+        "description" : "Rejestruje obraz strefy. Obraz nie opuszcza urządzenia.",
+        "documentation" : { },
+        "id" : "5",
+        "name" : "Kamera",
+        "properties" : {
+          "structurizr.dsl.identifier" : "kamera"
+        },
+        "tags" : "Element,Container,Device",
+        "technology" : "Kamera USB lub CSI"
+      }, {
+        "components" : [ {
+          "description" : "Pobiera klatki z kamery albo z pliku wideo.",
+          "documentation" : { },
+          "id" : "7",
+          "name" : "Odczyt obrazu",
+          "properties" : {
+            "structurizr.dsl.identifier" : "odczyt"
+          },
+          "relationships" : [ {
+            "description" : "Odczytuje klatki.",
+            "destinationId" : "5",
+            "id" : "26",
+            "sourceId" : "7",
+            "tags" : "Relationship",
+            "technology" : "USB lub CSI"
+          }, {
+            "description" : "Przekazuje klatkę.",
+            "destinationId" : "8",
+            "id" : "27",
+            "sourceId" : "7",
+            "tags" : "Relationship",
+            "technology" : "Wywołanie w aplikacji"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "OpenCV VideoCapture"
+        }, {
+          "description" : "Zmniejsza klatkę do szerokości z parametru. W protokole pomiarów: 1024, 640 i 320 pikseli.",
+          "documentation" : { },
+          "id" : "8",
+          "name" : "Skalowanie",
+          "properties" : {
+            "structurizr.dsl.identifier" : "skalowanie"
+          },
+          "relationships" : [ {
+            "description" : "Przekazuje klatkę, gdy wybrano rozwiązanie A.",
+            "destinationId" : "9",
+            "id" : "28",
+            "sourceId" : "8",
+            "tags" : "Relationship",
+            "technology" : "Wywołanie w aplikacji"
+          }, {
+            "description" : "Przekazuje klatkę, gdy wybrano rozwiązanie B.",
+            "destinationId" : "10",
+            "id" : "29",
+            "sourceId" : "8",
+            "tags" : "Relationship",
+            "technology" : "Wywołanie w aplikacji"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "OpenCV"
+        }, {
+          "description" : "Klasyczny detektor sylwetek. Działa bez karty graficznej i bez trenowania.",
+          "documentation" : { },
+          "id" : "9",
+          "name" : "Rozwiązanie A: detektor HOG + SVM",
+          "properties" : {
+            "structurizr.dsl.identifier" : "hog"
+          },
+          "relationships" : [ {
+            "description" : "Przekazuje ramki osób.",
+            "destinationId" : "11",
+            "id" : "31",
+            "sourceId" : "9",
+            "tags" : "Relationship",
+            "technology" : "Wywołanie w aplikacji"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "OpenCV HOGDescriptor"
+        }, {
+          "description" : "Sieć neuronowa wykrywająca osoby przez OpenCV DNN i ONNX. Docelowo na Jetson Nano przez TensorRT i int8.",
+          "documentation" : { },
+          "id" : "10",
+          "name" : "Rozwiązanie B: sieć YOLOv8n",
+          "properties" : {
+            "structurizr.dsl.identifier" : "yolo"
+          },
+          "relationships" : [ {
+            "description" : "Wczytuje wagi sieci.",
+            "destinationId" : "14",
+            "id" : "30",
+            "sourceId" : "10",
+            "tags" : "Relationship",
+            "technology" : "Plik"
+          }, {
+            "description" : "Przekazuje ramki osób.",
+            "destinationId" : "11",
+            "id" : "32",
+            "sourceId" : "10",
+            "tags" : "Relationship",
+            "technology" : "Wywołanie w aplikacji"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "OpenCV DNN, ONNX"
+        }, {
+          "description" : "Łączy wykrycia z kolejnych klatek w krótkie ślady. Liczy ślad raz, po potwierdzeniu. Numer śladu żyje najwyżej 3 s po zniknięciu osoby.",
+          "documentation" : { },
+          "id" : "11",
+          "name" : "Śledzenie",
+          "properties" : {
+            "structurizr.dsl.identifier" : "sledzenie"
+          },
+          "relationships" : [ {
+            "description" : "Przekazuje liczbę wykryć i sumę potwierdzonych osób.",
+            "destinationId" : "12",
+            "id" : "33",
+            "sourceId" : "11",
+            "tags" : "Relationship",
+            "technology" : "Wywołanie w aplikacji"
+          }, {
+            "description" : "Przekazuje bieżącą liczbę osób.",
+            "destinationId" : "13",
+            "id" : "35",
+            "sourceId" : "11",
+            "tags" : "Relationship,Planned",
+            "technology" : "Wywołanie w aplikacji"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Python"
+        }, {
+          "description" : "Zapisuje dla każdej klatki liczbę wykryć, czasy przetwarzania i ustawienia.",
+          "documentation" : { },
+          "id" : "12",
+          "name" : "Rejestr pomiarów",
+          "properties" : {
+            "structurizr.dsl.identifier" : "rejestr"
+          },
+          "relationships" : [ {
+            "description" : "Dopisuje wiersz pomiaru.",
+            "destinationId" : "15",
+            "id" : "34",
+            "sourceId" : "12",
+            "tags" : "Relationship",
+            "technology" : "Plik CSV"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "CSV"
+        }, {
+          "description" : "Przekazuje liczbę osób, czas i nazwę rozwiązania do systemu odbiorcy.",
+          "documentation" : { },
+          "id" : "13",
+          "name" : "Wyjście wyniku",
+          "properties" : {
+            "structurizr.dsl.identifier" : "wyjscie"
+          },
+          "relationships" : [ {
+            "description" : "Wysyła liczbę osób, czas i nazwę rozwiązania.",
+            "destinationId" : "3",
+            "id" : "36",
+            "sourceId" : "13",
+            "tags" : "Relationship,Planned",
+            "technology" : "HTTP"
+          } ],
+          "tags" : "Element,Component,Planned",
+          "technology" : "HTTP"
+        } ],
+        "description" : "Wykrywa osoby na klatce, śledzi je przez kilka sekund i liczy potwierdzone sylwetki.",
+        "documentation" : { },
+        "id" : "6",
+        "name" : "Aplikacja licznika",
+        "properties" : {
+          "structurizr.dsl.identifier" : "aplikacja"
+        },
+        "relationships" : [ {
+          "description" : "Odczytuje klatki.",
+          "destinationId" : "5",
+          "id" : "20",
+          "sourceId" : "6",
+          "tags" : "Relationship",
+          "technology" : "USB lub CSI"
+        }, {
+          "description" : "Wczytuje wagi sieci.",
+          "destinationId" : "14",
+          "id" : "21",
+          "sourceId" : "6",
+          "tags" : "Relationship",
+          "technology" : "Plik"
+        }, {
+          "description" : "Zapisuje wyniki pomiaru.",
+          "destinationId" : "15",
+          "id" : "22",
+          "sourceId" : "6",
+          "tags" : "Relationship",
+          "technology" : "Plik CSV"
+        }, {
+          "description" : "Przekazuje liczbę osób, czas i nazwę rozwiązania.",
+          "destinationId" : "3",
+          "id" : "24",
+          "sourceId" : "6",
+          "tags" : "Relationship,Planned",
+          "technology" : "HTTP"
+        } ],
+        "tags" : "Element,Container,App",
+        "technology" : "Python, OpenCV",
+        "url" : "{workspace}/decisions/Licznik%20os%C3%B3b#2"
+      }, {
+        "description" : "Wagi YOLOv8n w formacie ONNX. Nie są częścią repozytorium.",
+        "documentation" : { },
+        "id" : "14",
+        "name" : "Plik modelu sieci",
+        "properties" : {
+          "structurizr.dsl.identifier" : "modelSieci"
+        },
+        "tags" : "Element,Container,File",
+        "technology" : "ONNX"
+      }, {
+        "description" : "Wyniki pomiarów w CSV: jeden plik na rozwiązanie i rozdzielczość.",
+        "documentation" : { },
+        "id" : "15",
+        "name" : "Pliki pomiarów",
+        "properties" : {
+          "structurizr.dsl.identifier" : "pomiary"
+        },
+        "tags" : "Element,Container,File",
+        "technology" : "CSV"
+      } ],
+      "description" : "Liczy osoby w jednej strefie przy kamerze. Na zewnątrz przekazuje liczbę, czas i nazwę rozwiązania, bez obrazu.",
+      "documentation" : {
+        "decisions" : [ {
+          "content" : "# 1. LP-0001 · Przetwarzanie przy kamerze\n\nDate: 2026-11-25\n\n## Status\n\nProposed\n\n## Context\n\n- Element: Aplikacja licznika\n- Źródło: [kontekst licznika]({workspace}/documentation/Licznik%20os%C3%B3b#1)\n- Rekomendacja: przetwarzać obraz na urządzeniu przy kamerze i przekazywać wyłącznie wynik.\n- Decyzja: zespół projektowy, 25 listopada 2026; czeka na akceptację klienta.\n\n## 1. Potrzeba biznesowa\n\nKlient potrzebuje bieżącej liczby osób w strefie. Strumień wideo wymaga dziesiątek megabitów na sekundę, a wynik zajmuje kilka bajtów. Obraz osób jest danymi osobowymi, więc im krócej istnieje i im bliżej kamery zostaje, tym mniejsze ryzyko dla klienta.\n\n## 2. Stan obecny, stan docelowy i luka\n\n- Stan obecny: aplikacja licznika liczy osoby na komputerze, do którego podłączona jest kamera, i zapisuje wyniki lokalnie.\n- Stan docelowy: urządzenie przy kamerze przekazuje do systemu klienta liczbę osób, czas i nazwę rozwiązania, bez obrazu.\n- Luka: połączenie z systemem odbiorcy i jego format.\n\n## 3. Funkcjonalności\n\n1. Liczenie lokalne. Urządzenie przy kamerze wykrywa i liczy osoby.\n2. Wynik bez obrazu. Na zewnątrz trafia liczba, czas i nazwa rozwiązania.\n3. Praca przy przerwie łącza. Liczenie trwa, gdy system odbiorcy jest niedostępny.\n\n## 4. Rozważane opcje\n\n1. Przetwarzanie przy kamerze\n2. Przesyłanie obrazu do serwera lub chmury\n\n## 5. Opis opcji\n\n### Opcja A. Przetwarzanie przy kamerze\n\nModel dobierany jest do możliwości urządzenia. Obraz nie opuszcza strefy.\n\n- Liczenie lokalne: tak, aplikacja działa na urządzeniu przy kamerze.\n- Wynik bez obrazu: tak, przekazywana jest tylko liczba.\n- Praca przy przerwie łącza: tak, wyniki zapisują się lokalnie.\n\n### Opcja B. Przesyłanie obrazu do serwera lub chmury\n\nSerwer ma większą moc obliczeniową, ale wymaga stałego łącza o dużej przepustowości i przenosi obraz osób poza strefę.\n\n- Liczenie lokalne: nie.\n- Wynik bez obrazu: nie, obraz trafia na serwer.\n- Praca przy przerwie łącza: nie.\n\n## 6. Koszt opcji\n\n### Opcja A. Przetwarzanie przy kamerze\n\n- Wytworzenie: nie uzupełniono\n- Wdrożenie: nie uzupełniono\n- Używanie: nie uzupełniono\n- Utrzymanie: nie uzupełniono\n- Inny koszt: nie uzupełniono\n\n### Opcja B. Przesyłanie obrazu do serwera lub chmury\n\n- Wytworzenie: nie uzupełniono\n- Wdrożenie: nie uzupełniono\n- Używanie: nie uzupełniono\n- Utrzymanie: nie uzupełniono\n- Inny koszt: nie uzupełniono\n\n## 7. Rekomendacja\n\nOpcja A. Spełnia potrzebę klienta bez przesyłania obrazu i działa przy przerwie łącza.\n\n- Łatwiejsze: ochrona danych osobowych, praca bez stałego łącza, mały ruch sieciowy.\n- Trudniejsze: model musi zmieścić się w możliwościach urządzenia; sieć neuronowa wymaga optymalizacji.\n\n## 8. Decyzja\n\n- Kto zdecydował: zespół projektowy\n- Kiedy: 25 listopada 2026\n- Dlaczego: obraz osób nie powinien opuszczać strefy, a wynik zajmuje kilka bajtów.\n- Kogo pytano, a kto nie decydował: klient akceptuje zakres na spotkaniu. Status pozostaje Proposed do tej akceptacji.\n\n## 9. Niezmienniki chronione przez decyzję\n\n1. Obraz zostaje przy kamerze\n   - Musi pozostać prawdziwe: na zewnątrz urządzenia trafia tylko liczba osób, czas i nazwa rozwiązania.\n   - Źródło i powód: potrzeba klienta i ochrona danych osobowych.\n   - Wolno zmienić: format komunikatu i częstotliwość wysyłki.\n   - Nie wolno zmienić bez nowej decyzji: wysyłanie obrazu lub klatek poza urządzenie.\n   - Jak sprawdzić: przegląd danych wysyłanych przez wyjście wyniku.\n\n## 10. Kiedy zmiana wymaga nowej decyzji\n\n1. Zdarzenie: klient prosi o podgląd obrazu na zewnątrz.\n   - Dlaczego narusza obecną decyzję: obraz osób opuszcza strefę.\n   - Kto podejmuje nową decyzję: klient razem z zespołem.\n\n## 11. Związek z innymi elementami\n\nWybór urządzenia opisuje [LP-0004]({workspace}/decisions/Licznik%20os%C3%B3b#4).\n",
+          "date" : "2026-11-25T00:00:00Z",
+          "format" : "Markdown",
+          "id" : "1",
+          "status" : "Proposed",
+          "title" : "LP-0001 · Przetwarzanie przy kamerze"
+        }, {
+          "content" : "# 2. LP-0002 · Dwa rozwiązania i jeden protokół\n\nDate: 2026-11-25\n\n## Status\n\nProposed\n\n## Context\n\n- Element: Aplikacja licznika\n- Źródło: [wnętrze aplikacji]({workspace}/documentation/Licznik%20os%C3%B3b#3)\n- Rekomendacja: dostarczyć detektor klasyczny i sieć neuronową, mierzone na tych samych klatkach jednym protokołem.\n- Decyzja: zespół projektowy, 25 listopada 2026; czeka na akceptację klienta.\n\n## 1. Potrzeba biznesowa\n\nKlient musi wybrać rozwiązanie, które na jego urządzeniu daje wystarczającą dokładność przy wystarczającej szybkości. Wybór przed pomiarem byłby zgadywaniem.\n\n## 2. Stan obecny, stan docelowy i luka\n\n- Stan obecny: aplikacja ma oba detektory: HOG + SVM oraz YOLOv8n przez OpenCV DNN.\n- Stan docelowy: dwie tabele wyników z Jetson Nano, zmierzone na tych samych klatkach, w trzech rozdzielczościach.\n- Luka: oznaczone klatki, pomiar na Jetson Nano i optymalizacja sieci.\n\n## 3. Funkcjonalności\n\n1. Wymienny detektor. Wybór rozwiązania jest parametrem uruchomienia.\n2. Wspólna ścieżka. Odczyt, skalowanie, śledzenie i rejestr są wspólne dla obu rozwiązań.\n3. Porównywalny pomiar. Te same klatki, rozdzielczości i miary.\n\n## 4. Rozważane opcje\n\n1. Dwa rozwiązania w jednej aplikacji\n2. Jedno rozwiązanie wybrane przed pomiarem\n\n## 5. Opis opcji\n\n### Opcja A. Dwa rozwiązania w jednej aplikacji\n\nDetektory różnią się jedną częścią aplikacji. Reszta ścieżki jest wspólna.\n\n- Wymienny detektor: tak, parametr uruchomienia.\n- Wspólna ścieżka: tak.\n- Porównywalny pomiar: tak, jeden protokół.\n\n### Opcja B. Jedno rozwiązanie wybrane przed pomiarem\n\nMniej pracy, ale wybór opiera się na założeniu, a nie na wynikach.\n\n- Wymienny detektor: nie.\n- Wspólna ścieżka: nie dotyczy.\n- Porównywalny pomiar: nie, brak drugiej tabeli.\n\n## 6. Koszt opcji\n\n### Opcja A. Dwa rozwiązania w jednej aplikacji\n\n- Wytworzenie: nie uzupełniono\n- Wdrożenie: nie uzupełniono\n- Używanie: nie uzupełniono\n- Utrzymanie: nie uzupełniono\n- Inny koszt: nie uzupełniono\n\n### Opcja B. Jedno rozwiązanie wybrane przed pomiarem\n\n- Wytworzenie: nie uzupełniono\n- Wdrożenie: nie uzupełniono\n- Używanie: nie uzupełniono\n- Utrzymanie: nie uzupełniono\n- Inny koszt: nie uzupełniono\n\n## 7. Rekomendacja\n\nOpcja A. Klient wybiera na podstawie wyników, a zespół utrzymuje jedną aplikację.\n\n- Łatwiejsze: świadomy wybór klienta, dodanie kolejnego detektora.\n- Trudniejsze: dwa pomiary i optymalizacja sieci na urządzeniu.\n\n## 8. Decyzja\n\n- Kto zdecydował: zespół projektowy\n- Kiedy: 25 listopada 2026\n- Dlaczego: wybór rozwiązania wymaga porównywalnych wyników na sprzęcie docelowym.\n- Kogo pytano, a kto nie decydował: klient akceptuje zakres na spotkaniu.\n\n## 9. Niezmienniki chronione przez decyzję\n\n1. Jeden protokół dla obu rozwiązań\n   - Musi pozostać prawdziwe: oba rozwiązania są mierzone na tych samych klatkach, rozdzielczościach i miarach.\n   - Źródło i powód: porównywalność tabel dla klienta.\n   - Wolno zmienić: ustawienia każdego detektora, zapisane przy wyniku.\n   - Nie wolno zmienić bez nowej decyzji: osobne zbiory klatek dla rozwiązań.\n   - Jak sprawdzić: źródło i lista klatek w protokole każdej tabeli.\n\n## 10. Kiedy zmiana wymaga nowej decyzji\n\n1. Zdarzenie: klient rezygnuje z jednego rozwiązania.\n   - Dlaczego narusza obecną decyzję: zmienia się zakres dostawy.\n   - Kto podejmuje nową decyzję: klient.\n\n## 11. Związek z innymi elementami\n\nPomiar odbywa się na urządzeniu z [LP-0004]({workspace}/decisions/Licznik%20os%C3%B3b#4).\n",
+          "date" : "2026-11-25T00:00:00Z",
+          "format" : "Markdown",
+          "id" : "2",
+          "status" : "Proposed",
+          "title" : "LP-0002 · Dwa rozwiązania i jeden protokół"
+        }, {
+          "content" : "# 3. LP-0003 · Liczenie bez tożsamości\n\nDate: 2026-11-25\n\n## Status\n\nProposed\n\n## Context\n\n- Element: Śledzenie\n- Źródło: [wnętrze aplikacji]({workspace}/documentation/Licznik%20os%C3%B3b#3)\n- Rekomendacja: liczyć sylwetki z tymczasowym numerem śladu, bez zapisu cech twarzy i bez bazy osób.\n- Decyzja: zespół projektowy, 25 listopada 2026; czeka na akceptację klienta.\n\n## 1. Potrzeba biznesowa\n\nKlient potrzebuje liczby osób, nie ich tożsamości. Identyfikacja osób podlega rozporządzeniu UE 2024/1689 (AI Act): wymaga oceny zgodności, rejestracji i nadzoru człowieka, a kary sięgają 35 mln euro albo 7% światowego obrotu.\n\n## 2. Stan obecny, stan docelowy i luka\n\n- Stan obecny: aplikacja nadaje sylwetce tymczasowy numer śladu i nie zapisuje go na dysk.\n- Stan docelowy: to samo zachowanie na urządzeniu docelowym, przy obu rozwiązaniach.\n- Luka: brak.\n\n## 3. Funkcjonalności\n\n1. Jednokrotne liczenie. Ta sama osoba jest liczona raz, mimo wielu klatek.\n2. Brak tożsamości. Numer śladu nie wskazuje osoby i nie zostaje po sesji.\n3. Brak zapisu obrazu. Klatka nie jest zapisywana po przetworzeniu.\n\n## 4. Rozważane opcje\n\n1. Krótki ślad sylwetki\n2. Ponowne rozpoznawanie osoby na podstawie cech wyglądu\n\n## 5. Opis opcji\n\n### Opcja A. Krótki ślad sylwetki\n\nŚledzenie łączy ramki z kolejnych klatek na podstawie położenia i ruchu. Numer znika najwyżej 3 sekundy po zniknięciu osoby z kadru.\n\n- Jednokrotne liczenie: tak, w obrębie krótkiej obecności w kadrze.\n- Brak tożsamości: tak.\n- Brak zapisu obrazu: tak.\n\n### Opcja B. Ponowne rozpoznawanie osoby\n\nDokładniejsze przy powrotach do kadru, ale wymaga zapisu cech wyglądu, czyli danych biometrycznych.\n\n- Jednokrotne liczenie: tak, także po powrocie osoby.\n- Brak tożsamości: nie.\n- Brak zapisu obrazu: nie, cechy muszą być przechowywane.\n\n## 6. Koszt opcji\n\n### Opcja A. Krótki ślad sylwetki\n\n- Wytworzenie: nie uzupełniono\n- Wdrożenie: nie uzupełniono\n- Używanie: nie uzupełniono\n- Utrzymanie: nie uzupełniono\n- Inny koszt: nie uzupełniono\n\n### Opcja B. Ponowne rozpoznawanie osoby\n\n- Wytworzenie: nie uzupełniono\n- Wdrożenie: nie uzupełniono\n- Używanie: nie uzupełniono\n- Utrzymanie: nie uzupełniono\n- Inny koszt: obowiązki systemu wysokiego ryzyka według rozporządzenia UE 2024/1689\n\n## 7. Rekomendacja\n\nOpcja A. Daje liczbę osób bez przetwarzania danych biometrycznych.\n\n- Łatwiejsze: zgodność z przepisami, prostsza obsługa danych.\n- Trudniejsze: osoba, która wróci do kadru po dłuższej przerwie, może zostać policzona ponownie.\n\n## 8. Decyzja\n\n- Kto zdecydował: zespół projektowy\n- Kiedy: 25 listopada 2026\n- Dlaczego: zlecenie dotyczy liczby osób, a identyfikacja podlega osobnym obowiązkom prawnym.\n- Kogo pytano, a kto nie decydował: klient akceptuje zakres na spotkaniu. Status pozostaje Proposed do tej akceptacji.\n\n## 9. Niezmienniki chronione przez decyzję\n\n1. Brak tożsamości w wyniku\n   - Musi pozostać prawdziwe: licznik nie zapisuje cech twarzy ani wyglądu, a numer śladu nie zostaje po sesji.\n   - Źródło i powód: zakres zlecenia i rozporządzenie UE 2024/1689.\n   - Wolno zmienić: czas życia numeru śladu w granicy kilku sekund.\n   - Nie wolno zmienić bez nowej decyzji: zapis cech osoby, baza twarzy, analiza emocji.\n   - Jak sprawdzić: przegląd kolumn pliku pomiarów i danych wyjścia wyniku.\n\n## 10. Kiedy zmiana wymaga nowej decyzji\n\n1. Zdarzenie: klient prosi o informację, kto przebywał w strefie.\n   - Dlaczego narusza obecną decyzję: to identyfikacja osób, czyli inne zlecenie.\n   - Kto podejmuje nową decyzję: klient, po ocenie obowiązków prawnych.\n\n## 11. Związek z innymi elementami\n\nObraz pozostaje przy kamerze zgodnie z [LP-0001]({workspace}/decisions/Licznik%20os%C3%B3b#1).\n",
+          "date" : "2026-11-25T00:00:00Z",
+          "format" : "Markdown",
+          "id" : "3",
+          "status" : "Proposed",
+          "title" : "LP-0003 · Liczenie bez tożsamości"
+        }, {
+          "content" : "# 4. LP-0004 · Jetson Nano jako urządzenie odbioru\n\nDate: 2026-11-25\n\n## Status\n\nProposed\n\n## Context\n\n- Element: Jetson Nano\n- Źródło: [rozmieszczenie w strefie klienta]({workspace}/documentation/Licznik%20os%C3%B3b#5)\n- Rekomendacja: mierzyć i odbierać wydajność na NVIDIA Jetson Nano.\n- Decyzja: zespół projektowy, 25 listopada 2026; czeka na akceptację klienta.\n\n## 1. Potrzeba biznesowa\n\nWydajność licznika zależy od sprzętu. Klient potrzebuje wyniku z urządzenia, które będzie pracować w strefie, a nie z komputera zespołu.\n\n## 2. Stan obecny, stan docelowy i luka\n\n- Stan obecny: zespół dysponuje Jetson Nano; aplikacja działa na komputerze z Pythonem i OpenCV.\n- Stan docelowy: oba rozwiązania zmierzone na Jetson Nano, sieć dopasowana przez TensorRT i int8.\n- Luka: uruchomienie środowiska na Jetson Nano i optymalizacja sieci.\n\n## 3. Funkcjonalności\n\n1. Pomiar na sprzęcie docelowym. Tabela wyników pochodzi z urządzenia w strefie.\n2. Przyspieszenie sieci. Sieć korzysta z procesora graficznego urządzenia.\n\n## 4. Rozważane opcje\n\n1. NVIDIA Jetson Nano\n2. Raspberry Pi\n\n## 5. Opis opcji\n\n### Opcja A. NVIDIA Jetson Nano\n\nMały komputer z procesorem graficznym i obsługą TensorRT.\n\n- Pomiar na sprzęcie docelowym: tak.\n- Przyspieszenie sieci: tak, TensorRT i int8.\n\n### Opcja B. Raspberry Pi\n\nTańszy i popularny, bez procesora graficznego do sieci neuronowych; wymaga osobnego akceleratora.\n\n- Pomiar na sprzęcie docelowym: tak.\n- Przyspieszenie sieci: nie, bez dodatkowego akceleratora.\n\n## 6. Koszt opcji\n\n### Opcja A. NVIDIA Jetson Nano\n\n- Wytworzenie: nie uzupełniono\n- Wdrożenie: nie uzupełniono\n- Używanie: nie uzupełniono\n- Utrzymanie: nie uzupełniono\n- Inny koszt: brak, zespół dysponuje urządzeniem\n\n### Opcja B. Raspberry Pi\n\n- Wytworzenie: nie uzupełniono\n- Wdrożenie: nie uzupełniono\n- Używanie: nie uzupełniono\n- Utrzymanie: nie uzupełniono\n- Inny koszt: zakup urządzenia i akceleratora\n\n## 7. Rekomendacja\n\nOpcja A. Zespół ma urządzenie, a procesor graficzny daje sieci realną szansę na próg 10 klatek na sekundę.\n\n- Łatwiejsze: optymalizacja sieci, pomiar bez zakupu sprzętu.\n- Trudniejsze: konfiguracja JetPack i TensorRT.\n\n## 8. Decyzja\n\n- Kto zdecydował: zespół projektowy\n- Kiedy: 25 listopada 2026\n- Dlaczego: zespół ma urządzenie, a sieć potrzebuje procesora graficznego.\n- Kogo pytano, a kto nie decydował: klient potwierdza, czy pomiar na Jetson Nano zamyka odbiór wydajności.\n\n## 9. Niezmienniki chronione przez decyzję\n\n1. Odbiór wydajności na sprzęcie docelowym\n   - Musi pozostać prawdziwe: wynik wydajności w odbiorze pochodzi z Jetson Nano.\n   - Źródło i powód: wydajność zależy od sprzętu.\n   - Wolno zmienić: pomiary pomocnicze na innym sprzęcie, opisane jego nazwą.\n   - Nie wolno zmienić bez nowej decyzji: odbiór na podstawie wyniku z laptopa.\n   - Jak sprawdzić: kolumna sprzętu w tabeli wyników.\n\n## 10. Kiedy zmiana wymaga nowej decyzji\n\n1. Zdarzenie: klient wskazuje inne urządzenie docelowe.\n   - Dlaczego narusza obecną decyzję: zmienia się sprzęt odbioru.\n   - Kto podejmuje nową decyzję: klient.\n\n## 11. Związek z innymi elementami\n\nPrzetwarzanie przy kamerze opisuje [LP-0001]({workspace}/decisions/Licznik%20os%C3%B3b#1).\n",
+          "date" : "2026-11-25T00:00:00Z",
+          "format" : "Markdown",
+          "id" : "4",
+          "status" : "Proposed",
+          "title" : "LP-0004 · Jetson Nano jako urządzenie odbioru"
+        }, {
+          "content" : "# 5. LP-0005 · Telefon jako drugie urządzenie testowe\n\nDate: 2026-11-28\n\n## Status\n\nProposed\n\n## Context\n\n- Element: Telefon komórkowy\n- Źródło: [testy na telefonie]({workspace}/documentation/Licznik%20os%C3%B3b#7)\n- Rekomendacja: dodać telefon z kamerą i API wyniku jako drugie urządzenie testowe obok Jetson Nano.\n- Decyzja: Ania, 28 listopada 2026; czeka na akceptację klienta jako zakresu testów.\n\n## 1. Potrzeba biznesowa\n\nKlient i zespół chcą zobaczyć, jak licznik zachowuje się nie tylko na Jetson Nano, lecz także na telefonie. Telefon jest łatwiej dostępny w terenie. Wynik może iść przez API do systemu odbiorcy.\n\n## 2. Stan obecny, stan docelowy i luka\n\n- Stan obecny: odbiór wydajności jest zaplanowany na Jetson Nano; aplikacja działa na komputerze z Pythonem.\n- Stan docelowy: te same rozwiązania i protokół zmierzone także na telefonie; tabela z telefonu jest osobno podpisana.\n- Luka: wybór systemu operacyjnego telefonu, sposób uruchomienia aplikacji albo klienta API oraz format API.\n\n## 3. Funkcjonalności\n\n1. Drugi pomiar. Te same klatki i miary na telefonie.\n2. Wynik przez API. Liczba osób, czas i nazwa rozwiązania trafiają do systemu odbiorcy.\n3. Rozróżnienie sprzętu. Wynik z telefonu nie jest podpisany jako Jetson Nano.\n\n## 4. Rozważane opcje\n\n1. Tylko Jetson Nano\n2. Jetson Nano do odbioru oraz telefon do dodatkowych testów\n\n## 5. Opis opcji\n\n### Opcja A. Tylko Jetson Nano\n\nJeden sprzęt, prostszy raport.\n\n- Drugi pomiar: nie.\n- Wynik przez API: możliwe także z Nano.\n- Rozróżnienie sprzętu: nie dotyczy.\n\n### Opcja B. Jetson Nano do odbioru oraz telefon do dodatkowych testów\n\nOdbiór zostaje na Nano. Telefon daje drugą tabelę i doświadczenie z API.\n\n- Drugi pomiar: tak.\n- Wynik przez API: tak, planowane.\n- Rozróżnienie sprzętu: tak, kolumna sprzętu w protokole.\n\n## 6. Koszt opcji\n\n### Opcja A. Tylko Jetson Nano\n\n- Wytworzenie: nie uzupełniono\n- Wdrożenie: nie uzupełniono\n- Używanie: nie uzupełniono\n- Utrzymanie: nie uzupełniono\n- Inny koszt: nie uzupełniono\n\n### Opcja B. Jetson Nano do odbioru oraz telefon do dodatkowych testów\n\n- Wytworzenie: nie uzupełniono\n- Wdrożenie: nie uzupełniono\n- Używanie: nie uzupełniono\n- Utrzymanie: nie uzupełniono\n- Inny koszt: telefon zespołu; bez zakupu osobnego urządzenia brzegowego\n\n## 7. Rekomendacja\n\nOpcja B. Nano zamyka odbiór wydajności. Telefon poszerza testy bez zmiany progu odbioru.\n\n- Łatwiejsze: porównanie sprzętów, pokaz API.\n- Trudniejsze: drugi zestaw pomiarów i ustalenie sposobu uruchomienia na telefonie.\n\n## 8. Decyzja\n\n- Kto zdecydował: Ania\n- Kiedy: 28 listopada 2026\n- Dlaczego: drugie urządzenie do testów obok Jetson Nano.\n- Kogo pytano, a kto nie decydował: klient akceptuje zakres testów na spotkaniu. Status pozostaje Proposed do tej akceptacji.\n\n## 9. Niezmienniki chronione przez decyzję\n\n1. Odbiór wydajności zostaje na Jetson Nano\n   - Musi pozostać prawdziwe: tabela z telefonu nie zastępuje tabeli z Nano w odbiorze wydajności.\n   - Źródło i powód: LP-0004 oraz decyzja Ani o drugim urządzeniu testowym.\n   - Wolno zmienić: system operacyjny telefonu i sposób uruchomienia aplikacji.\n   - Nie wolno zmienić bez nowej decyzji: uznanie samego telefonu za odbiór wydajności zamiast Nano.\n   - Jak sprawdzić: kolumna sprzętu w protokole i raport odbioru.\n\n## 10. Kiedy zmiana wymaga nowej decyzji\n\n1. Zdarzenie: klient chce, żeby telefon zamykał odbiór wydajności zamiast Jetson Nano.\n   - Dlaczego narusza obecną decyzję: zmienia sprzęt odbioru.\n   - Kto podejmuje nową decyzję: klient.\n\n## 11. Związek z innymi elementami\n\nSprzęt odbioru opisuje [LP-0004]({workspace}/decisions/Licznik%20os%C3%B3b#4).\n",
+          "date" : "2026-11-28T00:00:00Z",
+          "format" : "Markdown",
+          "id" : "5",
+          "status" : "Proposed",
+          "title" : "LP-0005 · Telefon jako drugie urządzenie testowe"
+        } ],
+        "sections" : [ {
+          "content" : "## Liczba osób w strefie\n\nOperator strefy chce na bieżąco wiedzieć, ile osób przebywa w jednym miejscu. Licznik osób pracuje przy kamerze i przekazuje na zewnątrz wyłącznie wynik: liczbę osób, czas i nazwę rozwiązania, które ją podało. Obraz nie opuszcza urządzenia.\n\n![Kto korzysta z licznika i dokąd trafia wynik](embed:LP-Kontekst)\n\nStrzałki pokazują, kto inicjuje działanie. Licznik wysyła wynik do systemu odbiorcy. Operator odczytuje liczbę z systemu odbiorcy, a nie z samego licznika. Linia przerywana oznacza połączenie planowane: adres i format systemu odbiorcy wskazuje klient.\n\nZespół projektowy uruchamia pomiary i porównuje dwa rozwiązania liczenia na tych samych klatkach. Na podstawie obu tabel klient wybiera rozwiązanie do codziennej pracy.\n\nLicznik nie ustala tożsamości osób. Nie tworzy bazy twarzy, nie zapisuje cech wyglądu i nie analizuje emocji. Zakres obejmuje jedną kamerę i jedną strefę.\n",
+          "filename" : "01-kontekst.md",
+          "format" : "Markdown",
+          "order" : 1,
+          "title" : ""
+        }, {
+          "content" : "## Kamera, aplikacja i pliki\n\nLicznik składa się z kamery, aplikacji licznika oraz dwóch rodzajów plików: wag sieci neuronowej i wyników pomiarów.\n\n![Kamera, aplikacja licznika i pliki, z których korzysta](embed:LP-Kontenery)\n\nAplikacja odczytuje klatki z kamery, wykrywa osoby i liczy je. Rozwiązanie B wczytuje wagi sieci YOLOv8n z pliku ONNX. Wagi nie są przechowywane w repozytorium kodu.\n\nKażdy pomiar trafia do pliku CSV: jeden plik na rozwiązanie i rozdzielczość. Zespół porównuje te pliki z ręcznie oznaczonymi klatkami i wylicza czułość, precyzję oraz błąd liczenia.\n\nPrzekazanie wyniku do systemu odbiorcy jest planowane. Zakres połączenia ustala klient: format komunikatu, częstotliwość i adres serwera.\n",
+          "filename" : "02-kontenery.md",
+          "format" : "Markdown",
+          "order" : 2,
+          "title" : ""
+        }, {
+          "content" : "## Wnętrze aplikacji licznika\n\nAplikacja ma jedną ścieżkę przetwarzania klatki i dwa wymienne detektory. Dzięki temu oba rozwiązania liczą te same klatki w tych samych warunkach.\n\n![Odpowiedzialności aplikacji: od odczytu klatki do wyniku i pomiaru](embed:LP-Aplikacja)\n\n| Część | Odpowiedzialność | Co zmienia się przy zmianie wymagań |\n|---|---|---|\n| Odczyt obrazu | Pobiera klatki z kamery albo z pliku wideo | Nowe źródło obrazu |\n| Skalowanie | Zmniejsza klatkę do szerokości z parametru; w protokole: 1024, 640 i 320 pikseli | Wybrana rozdzielczość |\n| Rozwiązanie A: HOG + SVM | Wykrywa sylwetki klasyczną metodą | Progi detektora |\n| Rozwiązanie B: YOLOv8n | Wykrywa osoby siecią neuronową | Model i jego optymalizacja na urządzeniu |\n| Śledzenie | Łączy wykrycia w krótkie ślady i liczy każdą osobę raz | Reguła liczenia unikalnej osoby |\n| Rejestr pomiarów | Zapisuje liczbę wykryć, czasy i ustawienia | Zakres danych w protokole |\n| Wyjście wyniku | Planowane: przekazuje liczbę osób do systemu odbiorcy | Format i adres wskazane przez klienta |\n\nŚledzenie nadaje sylwetce tymczasowy numer, aby ta sama osoba nie była liczona w każdej klatce. Numer istnieje najwyżej 3 sekundy po zniknięciu osoby z kadru, nie jest zapisywany po sesji i nie wskazuje tożsamości.\n\nWybór rozwiązania i rozdzielczości to parametr uruchomienia. Zmiana detektora nie wymaga zmian w śledzeniu ani w rejestrze pomiarów.\n",
+          "filename" : "03-aplikacja.md",
+          "format" : "Markdown",
+          "order" : 3,
+          "title" : ""
+        }, {
+          "content" : "## Przetworzenie jednej klatki\n\nPrzebieg pokazuje, co dzieje się z jedną klatką przy rozwiązaniu A. Rozwiązanie B przechodzi tę samą drogę; różni się tylko detektorem.\n\n![Przetworzenie jednej klatki rozwiązaniem A](embed:LP-Klatka)\n\nPrzebieg zaczyna się od odczytu klatki i kończy zapisem wiersza pomiaru. Czas mierzony jest osobno dla wykrywania, śledzenia i całego przetwarzania. Te czasy trafiają do tabeli wyników w protokole.\n\nGdy kamera przestanie dostarczać obraz, aplikacja kończy pracę z komunikatem. Wyniki zapisane do tej chwili zostają w pliku pomiarów. Przy pliku wideo koniec nagrania kończy pomiar i aplikacja podaje sumę potwierdzonych osób.\n\nKlatka nie jest zapisywana. Po przetworzeniu zostaje tylko liczba osób, czasy i ustawienia.\n",
+          "filename" : "04-klatka.md",
+          "format" : "Markdown",
+          "order" : 4,
+          "title" : ""
+        }, {
+          "content" : "## Rozmieszczenie w strefie klienta\n\nAplikacja licznika, wagi sieci i pliki pomiarów działają na NVIDIA Jetson Nano. Kamera jest podłączona bezpośrednio do urządzenia. System odbiorcy działa w infrastrukturze klienta.\n\n![Rozmieszczenie licznika w strefie klienta](embed:LP-Wdrozenie)\n\nOdbiór wydajności odbywa się na Jetson Nano. Dziś rozwiązanie B działa przez OpenCV DNN na procesorze. Docelowo sieć ma korzystać z procesora graficznego po dopasowaniu przez TensorRT i kwantyzację int8. Pomiar na laptopie lub telefonie jest pomocniczy i jest opisany nazwą sprzętu. Widok telefonu jako drugiego urządzenia testowego jest w osobnej sekcji.\n\nWysyłka wyniku do systemu odbiorcy jest planowana. Dopóki jej nie ma, wyniki zapisują się lokalnie. Po uruchomieniu wysyłki liczenie ma trwać także przy przerwie łącza; sposób ponowienia ustala się razem z formatem komunikatu.\n",
+          "filename" : "05-wdrozenie.md",
+          "format" : "Markdown",
+          "order" : 5,
+          "title" : ""
+        }, {
+          "content" : "## Decyzje architektoniczne\n\nCztery decyzje wyznaczają kształt licznika. Wszystkie mają status propozycji i czekają na akceptację klienta.\n\n| Decyzja | Skutek dla klienta |\n|---|---|\n| [LP-0001 · Przetwarzanie przy kamerze]({workspace}/decisions/Licznik%20os%C3%B3b#1) | Obraz zostaje na miejscu, na zewnątrz trafia tylko liczba osób |\n| [LP-0002 · Dwa rozwiązania i jeden protokół]({workspace}/decisions/Licznik%20os%C3%B3b#2) | Klient wybiera rozwiązanie na podstawie dwóch porównywalnych tabel |\n| [LP-0003 · Liczenie bez tożsamości]({workspace}/decisions/Licznik%20os%C3%B3b#3) | Projekt pozostaje poza obowiązkami systemów identyfikacji |\n| [LP-0004 · Jetson Nano jako urządzenie odbioru]({workspace}/decisions/Licznik%20os%C3%B3b#4) | Wydajność odbioru jest mierzona na Nano |\n| [LP-0005 · Telefon jako drugie urządzenie testowe]({workspace}/decisions/Licznik%20os%C3%B3b#5) | Dodatkowa tabela z telefonu, bez zastępowania Nano |\n",
+          "filename" : "06-decyzje.md",
+          "format" : "Markdown",
+          "order" : 6,
+          "title" : ""
+        }, {
+          "content" : "## Testy na telefonie\n\nTelefon komórkowy jest drugim urządzeniem testowym. Ma wbudowaną kamerę. Wynik może trafiać do systemu odbiorcy przez API.\n\n![Drugie urządzenie testowe: telefon z kamerą i API](embed:LP-Telefon)\n\nOdbiór wydajności nadal odbywa się na Jetson Nano. Tabela z telefonu jest opisana nazwą telefonu i nie zastępuje pomiaru na Nano.\n\nTen sam protokół i te same klatki obowiązują na obu urządzeniach. Porównanie pokazuje, jak zmienia się czas klatki i jakość wykryć między Nano a telefonem.\n",
+          "filename" : "07-telefon.md",
+          "format" : "Markdown",
+          "order" : 7,
+          "title" : ""
+        } ]
+      },
+      "id" : "4",
+      "name" : "Licznik osób",
+      "properties" : {
+        "structurizr.dsl.identifier" : "licznik"
+      },
+      "relationships" : [ {
+        "description" : "Przekazuje liczbę osób, czas i nazwę rozwiązania.",
+        "destinationId" : "3",
+        "id" : "17",
+        "sourceId" : "4",
+        "tags" : "Relationship,Planned",
+        "technology" : "HTTP"
+      } ],
+      "tags" : "Element,Software System"
+    } ]
+  },
+  "name" : "Licznik osób",
+  "properties" : {
+    "structurizr.inspection.error" : "0",
+    "structurizr.inspection.info" : "0",
+    "structurizr.inspection.ignore" : "0",
+    "structurizr.inspection.warning" : "0"
+  },
+  "views" : {
+    "componentViews" : [ {
+      "automaticLayout" : {
+        "edgeSeparation" : 50,
+        "nodeSeparation" : 50,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 100,
+        "vertices" : true
+      },
+      "containerId" : "6",
+      "description" : "Odpowiedzialności aplikacji: od odczytu klatki do wyniku i pomiaru.",
+      "elements" : [ {
+        "id" : "2",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "3",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "5",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "7",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "8",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "9",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "10",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "11",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "12",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "13",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "14",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "15",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "LP-Aplikacja",
+      "name" : "Component View: Licznik osób - Aplikacja licznika",
+      "order" : 3,
+      "relationships" : [ {
+        "id" : "23"
+      }, {
+        "id" : "25"
+      }, {
+        "id" : "26"
+      }, {
+        "id" : "27"
+      }, {
+        "id" : "28"
+      }, {
+        "id" : "29"
+      }, {
+        "id" : "30"
+      }, {
+        "id" : "31"
+      }, {
+        "id" : "32"
+      }, {
+        "id" : "33"
+      }, {
+        "id" : "34"
+      }, {
+        "id" : "35"
+      }, {
+        "id" : "36"
+      } ]
+    } ],
+    "configuration" : {
+      "defaultView" : "LP-Kontekst",
+      "styles" : {
+        "elements" : [ {
+          "background" : "#c9e8f5",
+          "color" : "#17211f",
+          "tag" : "App"
+        }, {
+          "background" : "#f3e8d4",
+          "color" : "#2b2112",
+          "shape" : "Box",
+          "tag" : "Device"
+        }, {
+          "background" : "#e8edf5",
+          "color" : "#182536",
+          "tag" : "Element"
+        }, {
+          "background" : "#eceff3",
+          "color" : "#273849",
+          "tag" : "External"
+        }, {
+          "background" : "#e5eee4",
+          "color" : "#17211f",
+          "shape" : "Folder",
+          "tag" : "File"
+        }, {
+          "background" : "#334155",
+          "color" : "#ffffff",
+          "shape" : "Person",
+          "tag" : "Person"
+        }, {
+          "border" : "Dashed",
+          "tag" : "Planned"
+        }, {
+          "background" : "#234552",
+          "color" : "#ffffff",
+          "tag" : "Software System"
+        } ],
+        "relationships" : [ {
+          "style" : "Dashed",
+          "tag" : "Planned"
+        }, {
+          "color" : "#526174",
+          "style" : "Solid",
+          "tag" : "Relationship",
+          "thickness" : 2
+        } ]
+      },
+      "terminology" : { }
+    },
+    "containerViews" : [ {
+      "automaticLayout" : {
+        "edgeSeparation" : 50,
+        "nodeSeparation" : 50,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 100,
+        "vertices" : true
+      },
+      "description" : "Kamera, aplikacja licznika i pliki, z których korzysta.",
+      "elements" : [ {
+        "id" : "2",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "3",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "5",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "6",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "14",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "15",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalSoftwareSystemBoundariesVisible" : false,
+      "key" : "LP-Kontenery",
+      "name" : "Container View: Licznik osób",
+      "order" : 2,
+      "relationships" : [ {
+        "id" : "19"
+      }, {
+        "id" : "20"
+      }, {
+        "id" : "21"
+      }, {
+        "id" : "22"
+      }, {
+        "id" : "23"
+      }, {
+        "id" : "24"
+      } ],
+      "softwareSystemId" : "4"
+    } ],
+    "deploymentViews" : [ {
+      "automaticLayout" : {
+        "edgeSeparation" : 50,
+        "nodeSeparation" : 50,
+        "rankDirection" : "TopBottom",
+        "rankSeparation" : 100,
+        "vertices" : true
+      },
+      "description" : "Rozmieszczenie odbioru: Jetson Nano, kamera i system odbiorcy.",
+      "elements" : [ {
+        "id" : "37",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "38",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "39",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "40",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "41",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "43",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "45",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "47",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "49",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "50",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "environment" : "Strefa klienta",
+      "key" : "LP-Wdrozenie",
+      "name" : "Deployment View: Licznik osób - Strefa klienta",
+      "order" : 5,
+      "relationships" : [ {
+        "id" : "42"
+      }, {
+        "id" : "44"
+      }, {
+        "id" : "46"
+      }, {
+        "id" : "48"
+      }, {
+        "id" : "51"
+      } ],
+      "softwareSystemId" : "4"
+    }, {
+      "automaticLayout" : {
+        "edgeSeparation" : 50,
+        "nodeSeparation" : 50,
+        "rankDirection" : "TopBottom",
+        "rankSeparation" : 100,
+        "vertices" : true
+      },
+      "description" : "Drugie urządzenie testowe: telefon z kamerą i API wyniku. Nie zastępuje odbioru na Jetson Nano.",
+      "elements" : [ {
+        "id" : "52",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "53",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "54",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "55",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "56",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "58",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "61",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "62",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "environment" : "Testy na telefonie",
+      "key" : "LP-Telefon",
+      "name" : "Deployment View: Licznik osób - Testy na telefonie",
+      "order" : 6,
+      "relationships" : [ {
+        "id" : "57"
+      }, {
+        "id" : "59"
+      }, {
+        "id" : "60"
+      }, {
+        "id" : "63"
+      } ],
+      "softwareSystemId" : "4"
+    } ],
+    "dynamicViews" : [ {
+      "automaticLayout" : {
+        "edgeSeparation" : 50,
+        "nodeSeparation" : 50,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 100,
+        "vertices" : true
+      },
+      "description" : "Przetworzenie jednej klatki rozwiązaniem A: od odczytu do zapisu pomiaru.",
+      "elementId" : "6",
+      "elements" : [ {
+        "id" : "5",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "7",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "8",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "9",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "11",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "12",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "15",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalBoundariesVisible" : false,
+      "key" : "LP-Klatka",
+      "name" : "Dynamic View: Licznik osób - Aplikacja licznika",
+      "order" : 4,
+      "relationships" : [ {
+        "description" : "Odczytuje klatkę.",
+        "id" : "26",
+        "order" : "1",
+        "response" : false
+      }, {
+        "description" : "Przekazuje klatkę.",
+        "id" : "27",
+        "order" : "2",
+        "response" : false
+      }, {
+        "description" : "Przekazuje klatkę w wybranej szerokości.",
+        "id" : "28",
+        "order" : "3",
+        "response" : false
+      }, {
+        "description" : "Przekazuje ramki osób.",
+        "id" : "31",
+        "order" : "4",
+        "response" : false
+      }, {
+        "description" : "Przekazuje liczbę wykryć i sumę potwierdzonych osób.",
+        "id" : "33",
+        "order" : "5",
+        "response" : false
+      }, {
+        "description" : "Dopisuje wiersz pomiaru.",
+        "id" : "34",
+        "order" : "6",
+        "response" : false
+      } ]
+    } ],
+    "systemContextViews" : [ {
+      "automaticLayout" : {
+        "edgeSeparation" : 50,
+        "nodeSeparation" : 50,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 100,
+        "vertices" : true
+      },
+      "description" : "Kto korzysta z licznika i dokąd trafia wynik.",
+      "elements" : [ {
+        "id" : "1",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "2",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "3",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "4",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "enterpriseBoundaryVisible" : true,
+      "key" : "LP-Kontekst",
+      "name" : "System Context View: Licznik osób",
+      "order" : 1,
+      "relationships" : [ {
+        "id" : "16"
+      }, {
+        "id" : "17"
+      }, {
+        "id" : "18"
+      } ],
+      "softwareSystemId" : "4"
+    } ]
+  }
+}
